@@ -3,12 +3,35 @@ import './App.css';
 import Person from './Person/Person'; //capital letter to identify custom componenet 
 
 class App extends Component {
+  //State is a reserved property name
+  state = {
+    persons: [
+      { name: 'Max', age: 28 },
+      { name: 'Stephy', age: 27 }
+
+    ]
+  };
+
+  switchNameHandler = () => {
+    // console.log('Was clicked!');
+    this.setState({
+      persons: [
+        { name: 'FuckerFag', age: 28 },
+        { name: 'Stephy', age: 27 }
+      ]
+    })
+  }
+
   render() {
     return (
+      //JSX
       //typical to root things in one single element (div)
       <div className="App">
-        <h1>I am Elijah's React App</h1>
-        <Person />
+      <br></br>
+      <button onClick = {this.switchNameHandler}>Switch Name</button>
+      <Person name={this.state.persons[0].name} age={this.state.persons[0].age}></Person>
+      <Person name={this.state.persons[1].name} age={this.state.persons[1].age}>My hobbies include being gay</Person>
+      <Person name="Bimmy" age="29"></Person>
       </div>
     );
     
