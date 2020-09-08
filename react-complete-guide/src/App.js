@@ -3,6 +3,20 @@ import './App.css';
 import Person from './Person/Person'; //capital letter to identify custom component - thats the convention
 
 
+/* The way to not do it
+<Person 
+name={this.state.persons[0].name} 
+age={this.state.persons[0].age}></Person>
+<Person 
+name={this.state.persons[1].name} 
+age={this.state.persons[1].age}
+click={this.switchNameHandler.bind(this, 'MisterTomy')}
+changed={this.nameChangedHandler}>My hobbies include being gay</Person>
+<Person 
+name={this.state.persons[2].name} 
+age={this.state.persons[2].age}></Person>
+*/
+
 class App extends Component {
   //State is a reserved property name
   state = {
@@ -11,7 +25,11 @@ class App extends Component {
       { name: 'Stephy', age: 27 },
       { name: 'Cuntmuffin', age: 21 }
 
-    ]
+    ],
+
+    otherState: 'some other value',
+    showPersons: false
+  
   };
 
   switchNameHandler = (newName) => {
@@ -36,40 +54,53 @@ class App extends Component {
     })
   }
 
+  tooglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons : !doesShow});
+    
+  }
+
   render() {
+    
     const style = {
       backgroundColor: 'cream',
       font: 'inherit',
       border: '2px solid #4C9FD6',
       padding: '8px',
       cursor: 'pointer'
-      
+
 
     };
+    //define block scope variable persons (defined in render)
+    let persons = null;
 
-    //Crea
+    if ( this.state.showPersons ) {
+        persons = (
+          <div>
+            {this.state.persons.map(person => {
+                return <Person 
+                name= {person.name} 
+                age = {person.age}/>
+            })}
+          </div>
 
+        );
+    } 
+    
     return (
       //JSX
       //typical to root things in one single element (div)
       //when using an arrow function, it implicity adds a return keyword in front of the code
       //warning - the arrow notation can be inefficient
+       //one way of doing this, but can lead to confusing code
+      //this.state.showPersons ? (then wrap shit in div here)
       <div className="App">
-      <br></br>
-      <button 
-      style={style}
-      onClick = {() => this.switchNameHandler('Mr. Faggot#2')}>Switch Name</button>
-      <Person 
-      name={this.state.persons[0].name} 
-      age={this.state.persons[0].age}></Person>
-      <Person 
-      name={this.state.persons[1].name} 
-      age={this.state.persons[1].age}
-      click={this.switchNameHandler.bind(this, 'MisterTomy')}
-      changed={this.nameChangedHandler}>My hobbies include being gay</Person>
-      <Person 
-      name={this.state.persons[2].name} 
-      age={this.state.persons[2].age}></Person>
+        <br></br>
+        <button 
+        style={style}
+        onClick = {this.tooglePersonsHandler}
+        >Show Persons</button>
+        {persons}  
       </div>
     );
     
