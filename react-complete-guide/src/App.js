@@ -21,9 +21,9 @@ class App extends Component {
   //State is a reserved property name
   state = {
     persons: [
-      { name: 'Max', age: 28 },
-      { name: 'Stephy', age: 27 },
-      { name: 'Cuntmuffin', age: 21 }
+      { id: 'fuck1',  name: 'Max', age: 28 },
+      { id: 'fuck2',  name: 'Stephy', age: 27 },
+      { id: 'fuck3',  name: 'Cuntmuffin', age: 21 }
 
     ],
 
@@ -31,7 +31,7 @@ class App extends Component {
     showPersons: false
   
   };
-
+/*
   switchNameHandler = (newName) => {
     // console.log('Was clicked!');
     this.setState({
@@ -42,18 +42,45 @@ class App extends Component {
       ]
     })
   }
+*/
 
-  nameChangedHandler = (event) => {
-    this.setState( {
-      persons: [
-        { name: 'Max', age: 30},
-        //updates on every keystroke
-        { name: event.target.value, age: 28 },
-        { name: 'JWall', age: 30 }
-      ]
-    })
+  deletePersonHandler = (personIndex) => {
+      //returns a shallow copy of the array
+      //const persons = this.state.persons.slice();
+
+      //es6 feature
+      const persons = [...this.state.persons];
+      //at personIndex, add one other person 
+      persons.splice(personIndex, 1);
+      this.setState({persons: persons});
   }
 
+  
+  nameChangedHandler = ( event, id ) => {
+    //search the array for the index of the person matching the provided id
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    });
+
+    //create a seperate object rather than directly mutate the reference entirely
+    const person = {  
+    ...this.state.persons[personIndex] 
+    };
+    
+    //another way of doing the same thing as above
+    //const person = Object.assign({}, this.state.persons[personIndex]);
+  
+    //update name value in persons object we defined above
+    person.name = event.target.value;
+
+    //retrieve a copy of the persons state array
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({persons: persons});
+
+  }
+  
   tooglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
     this.setState({showPersons : !doesShow});
@@ -73,14 +100,19 @@ class App extends Component {
     };
     //define block scope variable persons (defined in render)
     let persons = null;
-
+    //have to use multiple parentheses if you pass in more than one parameter for a JS object
+    //tags you pass into jsx = props
     if ( this.state.showPersons ) {
         persons = (
           <div>
-            {this.state.persons.map(person => {
-                return <Person 
+            {this.state.persons.map((person, index) => {
+                return <Person
+                click = {() => this.deletePersonHandler(index)} 
                 name= {person.name} 
-                age = {person.age}/>
+                age = {person.age}
+                key={person.id}
+                changed={(event) => this.nameChangedHandler(event, person.id)}
+                />
             })}
           </div>
 
