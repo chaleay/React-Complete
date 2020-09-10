@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import validation from './Validation/Validation';
+import Validation from './validate/validate'
+import CharValidation from './CharValidation/CharValidation'
 
 class App extends Component {
 
@@ -15,16 +16,37 @@ class App extends Component {
 
   }
 
-  calculateInputLength = () => {
-    console.log(this.state.userInput.length);
+
+  deleteCharHandler = ( index ) => {
+    //get a string array
+    const text = this.state.userInput.split('');
+    
+    //at index, remove the specificed entry
+    text.splice(index, 1);
+    //convert the text into a string array
+    const updatedText = text.join('');
+
+    //set the state
+    this.setState({userInput: updatedText});
+
   }
 
   // I HAVE A TINY PENIS 
   //                -Max
   //main method
   render() {
+    //this is where we map every char in the userInput to a charValidation
+    //but we need to turn charList into an arrayfirst
+    //we also get a key error, so to solve this we have to assing a key through html tags
+    const charList = this.state.userInput.split('').map((ch, index) => {
+      return <CharValidation character = {ch} 
+      key = {index} 
+      clicked = {() => this.deleteCharHandler(index)}
+      />
+
+    });
+    
     return (
-      
       <div className="App">
         <ol>
           <li>Create an input field (in App component) with a change listener which outputs the length of the entered text below it (e.g. in a paragraph).</li>
@@ -36,16 +58,16 @@ class App extends Component {
         </ol>
         <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p>
         <br></br>
+        
         <input 
           type="text" 
           onChange = {this.userInputHandler} 
           value = {this.state.userInput}> 
         </input>
-
-
       
         <p>{this.state.userInput.length}</p>
-        <validation></validation>
+        <Validation inputLength = {this.state.userInput.length}></Validation>
+        {charList}
       
       </div>
     );
