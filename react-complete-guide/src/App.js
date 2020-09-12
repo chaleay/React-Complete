@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person'; //capital letter to identify custom component - thats the convention
+import Radium, {StyleRoot} from 'radium';
 
 
 /* The way to not do it
@@ -83,6 +84,7 @@ class App extends Component {
   
   tooglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
+    //set our state var of showPersons to the opposite of whatever it is currently set at
     this.setState({showPersons : !doesShow});
     
   }
@@ -90,12 +92,18 @@ class App extends Component {
   render() {
     
     const style = {
-      backgroundColor: 'cream',
+      backgroundColor: 'green',
       font: 'inherit',
       border: '2px solid #4C9FD6',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      //inline hover style courtesy of Radium - however could do this using nested classes
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
 
+
+      }
 
     };
     //define block scope variable persons (defined in render)
@@ -117,8 +125,29 @@ class App extends Component {
           </div>
 
         );
+          //change the color of the button to red
+          style.backgroundColor = 'red'; 
+          //access the hover component of the style object
+          style[':hover'] = {
+            backgroundColor: 'salmon',
+            color: 'black'
+          };
+
+
+
     } 
     
+    const classes = [];
+    if (this.state.persons.length <= 2){
+        classes.push(['red']); //classes will be red
+    }
+
+    if (this.state.persons.length <= 1 ){
+        classes.push(['bold']); //classes will be red and bold if <= 1 length
+    }
+
+
+
     return (
       //JSX
       //typical to root things in one single element (div)
@@ -126,18 +155,23 @@ class App extends Component {
       //warning - the arrow notation can be inefficient
        //one way of doing this, but can lead to confusing code
       //this.state.showPersons ? (then wrap shit in div here)
+      <StyleRoot>
       <div className="App">
         <br></br>
-        <button 
+        <p className = {classes.join(' ')}>This is a test paragraph</p>
+        <button
         style={style}
         onClick = {this.tooglePersonsHandler}
         >Show Persons</button>
         {persons}  
+        <p id='test'>ID Selector in React - Example</p>
       </div>
+      </StyleRoot>
     );
     
       //return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'This is inside an h1'));
   }
 }
 
-export default App;
+//wraps our component
+export default Radium(App);

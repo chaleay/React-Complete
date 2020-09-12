@@ -1,3 +1,19 @@
 .App {
   text-align: center;
 }
+
+
+.red {
+  color: red;
+
+}
+
+.bold {
+  font-weight: bold;
+
+}
+
+#test{
+  color: blue;
+  font-size: x-large;
+}
