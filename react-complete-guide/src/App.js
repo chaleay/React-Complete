@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person'; //capital letter to identify custom component - thats the convention
-import Radium, {StyleRoot} from 'radium';
+//import Radium, {StyleRoot} from 'radium';
+import styled from 'styled-components'
 
 
 /* The way to not do it
@@ -17,6 +18,24 @@ changed={this.nameChangedHandler}>My hobbies include being gay</Person>
 name={this.state.persons[2].name} 
 age={this.state.persons[2].age}></Person>
 */
+
+//define a new styled button using our npm package styled-componenets
+const StyledButton = styled.button`
+  background-color: ${props => props.alt ? 'red' : 'green'};
+  font: inherit;
+  border: 2px solid #4C9FD6;
+  padding: 8px;
+  cursor: pointer;
+
+
+  &:hover {
+    background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
+    color: black;
+
+  }
+
+`;
+
 
 class App extends Component {
   //State is a reserved property name
@@ -91,6 +110,7 @@ class App extends Component {
 
   render() {
     
+    /*
     const style = {
       backgroundColor: 'green',
       font: 'inherit',
@@ -98,14 +118,17 @@ class App extends Component {
       padding: '8px',
       cursor: 'pointer',
       //inline hover style courtesy of Radium - however could do this using nested classes
+      
+      /*Radium Code - need radium to run
       ':hover': {
         backgroundColor: 'lightgreen',
         color: 'black'
 
 
       }
-
+      
     };
+    */
     //define block scope variable persons (defined in render)
     let persons = null;
     //have to use multiple parentheses if you pass in more than one parameter for a JS object
@@ -125,14 +148,14 @@ class App extends Component {
           </div>
 
         );
-          //change the color of the button to red
-          style.backgroundColor = 'red'; 
+          /*change the color of the button to red
+          StyledButton.backgroundColor = 'red'; 
           //access the hover component of the style object
-          style[':hover'] = {
+          StyledButton[':hover'] = {
             backgroundColor: 'salmon',
             color: 'black'
           };
-
+          */
 
 
     } 
@@ -155,18 +178,17 @@ class App extends Component {
       //warning - the arrow notation can be inefficient
        //one way of doing this, but can lead to confusing code
       //this.state.showPersons ? (then wrap shit in div here)
-      <StyleRoot>
+      
       <div className="App">
         <br></br>
         <p className = {classes.join(' ')}>This is a test paragraph</p>
-        <button
-        style={style}
+        <StyledButton alt = {this.state.showPersons}
         onClick = {this.tooglePersonsHandler}
-        >Show Persons</button>
+        >Show Persons</StyledButton>
         {persons}  
         <p id='test'>ID Selector in React - Example</p>
       </div>
-      </StyleRoot>
+      
     );
     
       //return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'This is inside an h1'));
@@ -174,4 +196,4 @@ class App extends Component {
 }
 
 //wraps our component
-export default Radium(App);
+export default App;
