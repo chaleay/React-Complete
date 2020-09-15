@@ -2,6 +2,39 @@ import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person'; //capital letter to identify custom component - thats the convention
 //import Radium, {StyleRoot} from 'radium';
+import styled from 'styled-components'
+
+
+/* The way to not do it
+<Person 
+name={this.state.persons[0].name} 
+age={this.state.persons[0].age}></Person>
+<Person 
+name={this.state.persons[1].name} 
+age={this.state.persons[1].age}
+click={this.switchNameHandler.bind(this, 'MisterTomy')}
+changed={this.nameChangedHandler}>My hobbies include being gay</Person>
+<Person 
+name={this.state.persons[2].name} 
+age={this.state.persons[2].age}></Person>
+*/
+
+//define a new styled button using our npm package styled-componenets
+const StyledButton = styled.button`
+  background-color: ${props => props.alt ? 'red' : 'green'};
+  font: inherit;
+  border: 2px solid #4C9FD6;
+  padding: 8px;
+  cursor: pointer;
+
+
+  &:hover {
+    background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
+    color: black;
+
+  }
+
+`;
 
 
 class App extends Component {
@@ -149,9 +182,9 @@ class App extends Component {
       <div className="App">
         <br></br>
         <p className = {classes.join(' ')}>This is a test paragraph</p>
-        <button alt = {this.state.showPersons}
+        <StyledButton alt = {this.state.showPersons}
         onClick = {this.tooglePersonsHandler}
-        >Show Persons</button>
+        >Show Persons</StyledButton>
         {persons}  
         <p id='test'>ID Selector in React - Example</p>
       </div>
