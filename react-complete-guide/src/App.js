@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './Person/Person'; //capital letter to identify custom component - thats the convention
+import Person from './Person/Person_OLD'; //capital letter to identify custom component - thats the convention
 //import Radium, {StyleRoot} from 'radium';
-
+import classes from './App.css';
 
 class App extends Component {
   //State is a reserved property name
@@ -98,6 +98,7 @@ class App extends Component {
     */
     //define block scope variable persons (defined in render)
     let persons = null;
+    let btnClass = [classes.Button];
     //have to use multiple parentheses if you pass in more than one parameter for a JS object
     //tags you pass into jsx = props
     if ( this.state.showPersons ) {
@@ -123,17 +124,20 @@ class App extends Component {
             color: 'black'
           };
           */
-
+          
+          //button now has the button class and the red class 
+          btnClass.push(classes.Red);
 
     } 
     
-    const classes = [];
+    //CSS MODULES - refer to css classes thorugh the keyword classes (as defined at the top)
+    const assignedClasses = [];
     if (this.state.persons.length <= 2){
-        classes.push(['red']); //classes will be red
+      assignedClasses.push(classes.red); //classes will be red
     }
 
     if (this.state.persons.length <= 1 ){
-        classes.push(['bold']); //classes will be red and bold if <= 1 length
+      assignedClasses.push(classes.bold); //classes will be red and bold if <= 1 length
     }
 
 
@@ -146,14 +150,14 @@ class App extends Component {
        //one way of doing this, but can lead to confusing code
       //this.state.showPersons ? (then wrap shit in div here)
       
-      <div className="App">
+      <div className={classes.App}>
         <br></br>
-        <p className = {classes.join(' ')}>This is a test paragraph</p>
-        <button alt = {this.state.showPersons}
+        <p className = {assignedClasses.join(' ')}>This is a test paragraph</p>
+        <button className = {btnClass.join(' ')} alt = {this.state.showPersons}
         onClick = {this.tooglePersonsHandler}
         >Show Persons</button>
         {persons}  
-        <p id='test'>ID Selector in React - Example</p>
+        <p id={classes.test}>ID Selector in React - Example</p>
       </div>
       
     );
