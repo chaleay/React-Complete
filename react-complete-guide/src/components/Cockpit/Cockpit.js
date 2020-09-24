@@ -12,11 +12,11 @@ const cockpit = (props) => {
 
 
     if (props.persons.length <= 2){
-      assignedClasses.push(classes.red); //classes will be red
+      assignedClasses.push(classes.Red); //classes will be red
     }
 
     if (props.persons.length <= 1 ){
-      assignedClasses.push(classes.bold); //classes will be red and bold if <= 1 length
+      assignedClasses.push(classes.Bold); //classes will be red and bold if <= 1 length
     }
 
 
@@ -25,8 +25,8 @@ const cockpit = (props) => {
         <div className={classes.Cockpit}>
             <br></br>
             <p className = {assignedClasses.join(' ')}>This is a test paragraph</p>
-            <button 
-            className = {btnClass.join('')}
+            <button
+            className = {btnClass.join(' ')}
             onClick = {props.clicked}>Show Persons</button>
         </div>
 
