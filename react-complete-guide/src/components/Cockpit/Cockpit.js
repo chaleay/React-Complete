@@ -9,7 +9,7 @@ const cockpit = (props) => {
         btnClass.push(classes.Red);
     }
     
-
+    
 
     if (props.persons.length <= 2){
       assignedClasses.push(classes.Red); //classes will be red
