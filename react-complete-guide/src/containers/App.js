@@ -7,6 +7,13 @@ import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit'
 
 class App extends Component {
+  constructor(props){
+    super(props);
+    console.log("[App.js] Constructor");
+
+  }
+
+
   //State is a reserved property name
   state = {
     persons: [
@@ -19,7 +26,29 @@ class App extends Component {
     otherState: 'some other value',
     showPersons: false
   
-  };
+  }
+
+
+  static getDerivedStateFromProps(props, state){
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+
+  }
+
+  
+  componentDidMount() {
+    console.log("[App.js] comoponentDidMount");
+  }
+
+  shouldComponentUpdate(nextProps, nextState){
+    console.log("[App.js] shouldComponentUpdate");
+    return true;
+  }
+
+  componentDidUpdate(){
+    console.log("[App.js] componentDidUpdate");
+  }
+
 /*
   switchNameHandler = (newName) => {
     // console.log('Was clicked!');
@@ -79,7 +108,7 @@ class App extends Component {
   }
 
   render() {
-    
+    console.log('[App.js] render');
     /*
     const style = {
       backgroundColor: 'green',
@@ -140,6 +169,7 @@ class App extends Component {
       <div className={classes.App}>
         <br></br>
         <Cockpit 
+        Title = {this.props.appTitle}
         showPersons = {this.state.showPersons} 
         persons = {this.state.persons}
         clicked={this.tooglePersonsHandler}

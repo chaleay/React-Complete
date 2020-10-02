@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 //import './Person.css';
 //import Radium from 'radium'
 import classes from './Person.css';
 
-const person = (props) => {
-    
+class Person extends Component {
+    render() {
     /*
     //anything above 500px, our persons width will stay at 450px
     const style = {
@@ -21,12 +21,15 @@ const person = (props) => {
     return (
     //<div className='Person' >
     <div className = {classes.Person}>
-        <p onClick={props.click}>My name is {props.name} and my age is {props.age} </p>
-        <p>{props.children}</p>
-        <input type = "text" onChange={props.changed} value = {props.name}></input>
+        <p onClick={this.props.click}>My name is {this.props.name} and my age is {this.props.age} </p>
+        <p>{this.props.children}</p>
+        <input type = "text" onChange={this.props.changed} value = {this.props.name}></input>
   
     </div>
     )
+    
+
+    }
 };
 
-export default person;  
+export default Person;  
