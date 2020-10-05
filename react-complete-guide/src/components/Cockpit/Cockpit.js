@@ -1,7 +1,30 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import classes from './Cockpit.css';
 
 const cockpit = (props) => {
+    
+    //one of the more important life-cycle hooks
+    useEffect(() => {
+    
+
+      //useState
+      console.log('[Cockpit.js] useEffect');
+      setTimeout(() => {
+        
+        
+        alert('Saved date to cloud');
+      }, 1000);
+
+      return () => {
+          console.log('[Cockpit.js] cleanup work in useEffect');
+      }
+
+    }, []);
+
+
+
+
+
     const assignedClasses = [];
     let btnClass = [classes.Button];
     

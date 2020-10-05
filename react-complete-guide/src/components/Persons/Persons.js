@@ -21,6 +21,14 @@ class Persons extends Component {
         return {message : 'Snapshot'};
     }
 
+    //cleanup stuff
+    componentWillUnmount(){
+        console.log("[Person.js] componentWillUnmount");
+    }
+
+
+    
+
 
     //the one we will probaly use the most often
     componentDidUpdate(prevProps, prevState, snapshot){
