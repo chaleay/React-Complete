@@ -9,18 +9,30 @@ const cockpit = (props) => {
 
       //useState
       console.log('[Cockpit.js] useEffect');
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         
         
         alert('Saved date to cloud');
-      }, 1000);
+      }, 3000); //in ms
 
       return () => {
+      
+          //when this is unmounted, the timer is cancelled
+          //clearTimeout(timer);
+          //this will run after every cleanup cycle
           console.log('[Cockpit.js] cleanup work in useEffect');
       }
 
     }, []);
 
+    useEffect(() => {
+
+      console.log('[Cockpit.js] 2nd useEffect');
+      return () => {
+          console.log('[Cockpit.js] cleanup work in 2nd useEffect');
+      };
+
+    });
 
 
 
@@ -34,11 +46,11 @@ const cockpit = (props) => {
     
     
 
-    if (props.persons.length <= 2){
+    if (props.personsLength <= 2){
       assignedClasses.push(classes.Red); //classes will be red
     }
 
-    if (props.persons.length <= 1 ){
+    if (props.personsLength <= 1 ){
       assignedClasses.push(classes.Bold); //classes will be red and bold if <= 1 length
     }
 
@@ -58,4 +70,5 @@ const cockpit = (props) => {
 
 };
 
-export default cockpit;
+//memo method only causes to cockpit to render in app.js render method if there is something that changes cockpit
+export default React.memo(cockpit);

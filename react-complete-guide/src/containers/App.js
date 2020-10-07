@@ -24,7 +24,8 @@ class App extends Component {
     ],
 
     otherState: 'some other value',
-    showPersons: false
+    showPersons: false,
+    showCockpit: true
   
   }
 
@@ -167,13 +168,16 @@ class App extends Component {
       //this.state.showPersons ? (then wrap shit in div here)
       
       <div className={classes.App}>
-        <br></br>
-        <Cockpit 
-        Title = {this.props.appTitle}
-        showPersons = {this.state.showPersons} 
-        persons = {this.state.persons}
-        clicked={this.tooglePersonsHandler}
-        />
+        <button onClick={() => {
+            this.setState({showCockpit : !this.state.showCockpit});
+        }}>Toggle Cockpit
+        </button>
+        {this.state.showCockpit ? <Cockpit 
+          Title = {this.props.appTitle}
+          showPersons = {this.state.showPersons} 
+          personsLength = {this.state.persons.length}
+          clicked={this.tooglePersonsHandler}
+        /> : null }
         {persons}  
         <p id={classes.test}>ID Selector in React - Example</p>
       </div>
