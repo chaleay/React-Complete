@@ -5,6 +5,10 @@ import React, { Component } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit'
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Aux';
+import AuthContext from '../context/auth-context'
+import authContext from '../context/auth-context';
 
 class App extends Component {
   constructor(props){
@@ -25,8 +29,9 @@ class App extends Component {
 
     otherState: 'some other value',
     showPersons: false,
-    showCockpit: true
-  
+    showCockpit: true,
+    changeCounter: 0,
+    authenticated: false
   }
 
 
@@ -97,8 +102,16 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState({persons: persons});
-
+    //setSTate is not guaranteed to execute and finish immediately
+    this.setState((prevState, props) => {
+      return {
+      
+          persons: persons,
+          changeCounter: prevState.changeCounter + 1
+      
+        };
+      });
+    
   }
   
   tooglePersonsHandler = () => {
@@ -107,6 +120,10 @@ class App extends Component {
     this.setState({showPersons : !doesShow});
     
   }
+
+  loginHandler = () => {
+      this.setState({authenticated: true});
+  };
 
   render() {
     console.log('[App.js] render');
@@ -139,7 +156,8 @@ class App extends Component {
             <Persons
               persons={this.state.persons}
               clicked={this.deletePersonHandler}
-              changed={this.nameChangedHandler}           
+              changed={this.nameChangedHandler}
+              isAuthenticated={this.state.authenticated}           
             />
         
 
@@ -167,20 +185,25 @@ class App extends Component {
        //one way of doing this, but can lead to confusing code
       //this.state.showPersons ? (then wrap shit in div here)
       
-      <div className={classes.App}>
+      //pass values to authProvider for further reference
+      <Aux>
         <button onClick={() => {
             this.setState({showCockpit : !this.state.showCockpit});
         }}>Toggle Cockpit
         </button>
-        {this.state.showCockpit ? <Cockpit 
-          Title = {this.props.appTitle}
-          showPersons = {this.state.showPersons} 
-          personsLength = {this.state.persons.length}
-          clicked={this.tooglePersonsHandler}
-        /> : null }
-        {persons}  
+        
+        <AuthContext.Provider value={{authenticated: this.state.authenticated, login: this.loginHandler}}>
+          {this.state.showCockpit ? 
+            (<Cockpit 
+              Title = {this.props.appTitle}
+              showPersons = {this.state.showPersons} 
+              personsLength = {this.state.persons.length}
+              clicked={this.tooglePersonsHandler}
+          /> ) : null }
+          {persons}  
+        </AuthContext.Provider>
         <p id={classes.test}>ID Selector in React - Example</p>
-      </div>
+      </Aux>
       
     );
     
@@ -189,4 +212,4 @@ class App extends Component {
 }
 
 //wraps our component
-export default App;
+export default withClass(App, classes.App);

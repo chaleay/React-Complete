@@ -1,19 +1,25 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef, useContext} from 'react';
 import classes from './Cockpit.css';
+import AuthContext from '../../context/auth-context'
 
 const cockpit = (props) => {
-    
+    const toggleBtnRef = useRef(null);
+    const authContext = useContext(AuthContext);
+
     //one of the more important life-cycle hooks
+    //runs after jsx code render
     useEffect(() => {
     
 
       //useState
       console.log('[Cockpit.js] useEffect');
-      const timer = setTimeout(() => {
-        
-        
-        alert('Saved date to cloud');
-      }, 3000); //in ms
+     // const timer = setTimeout(() => {
+     //   
+     //   
+     //   //alert('Saved date to cloud');
+     // }, 3000); //in ms
+
+     toggleBtnRef.current.click();
 
       return () => {
       
@@ -38,10 +44,12 @@ const cockpit = (props) => {
 
 
     const assignedClasses = [];
-    let btnClass = [classes.Button];
+    let btnClass = '';
+    
+    
     
     if(props.showPersons){
-        btnClass.push(classes.Red);
+        btnClass = classes.Red;
     }
     
     
@@ -57,13 +65,20 @@ const cockpit = (props) => {
 
     return (
 
+        //doing context the old way here (w/0 hooks for documentation)
         <div className={classes.Cockpit}>
             <h1>{props.Title}</h1>
              
-            <p className = {assignedClasses.join(' ')}>This is a test paragraph</p>
+            <p className= {assignedClasses.join(' ')}>This is a test paragraph</p>
             <button
-            className = {btnClass.join(' ')}
-            onClick = {props.clicked}>Show Persons</button>
+            className = {btnClass}
+            onClick = {props.clicked}
+            ref={toggleBtnRef}
+            >Show Persons
+            </button>
+            <AuthContext.Consumer>
+            {context => <button onClick={context.login}>Log in</button>}
+            </AuthContext.Consumer>
         </div>
 
         );
